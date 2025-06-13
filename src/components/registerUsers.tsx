@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface RegisterUserProps {
   onRegisterSuccess: () => void;
@@ -12,6 +13,9 @@ const ROLES = [
 ];
 
 const RegisterUser: React.FC<RegisterUserProps> = ({ onRegisterSuccess }) => {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,8 +23,30 @@ const RegisterUser: React.FC<RegisterUserProps> = ({ onRegisterSuccess }) => {
   const [rol, setRol] = useState("");
   const [idDealer, setIdDealer] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const isRepartidor = rol === "RP";
+
+  // Fetch user data si hay id (modo edición)
+  useEffect(() => {
+    if (!id) return;
+
+    setLoading(true);
+    fetch(`http://localhost:3000/list/users/${id}`)
+      .then(async (res) => {
+        if (!res.ok) throw new Error("Error al obtener usuario");
+        const data = await res.json();
+        setName(data.name || "");
+        setEmail(data.email || "");
+        // Por seguridad, deja password vacío
+        setPassword("");
+        setConfirm("");
+        setRol(data.rol || "");
+        setIdDealer(data.id_dealer || "");
+      })
+      .catch((err) => setError(err.message || "Error desconocido"))
+      .finally(() => setLoading(false));
+  }, [id]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,35 +66,54 @@ const RegisterUser: React.FC<RegisterUserProps> = ({ onRegisterSuccess }) => {
       name,
       email,
       password,
-      rol, // char(2)
-      id_dealer: isRepartidor ? idDealer : "", // si no es repartidor se manda vacío
-      status: "A", // siempre A
+      rol,
+      id_dealer: isRepartidor ? Number(idDealer) : undefined,
+      status: "A",
     };
 
     try {
-      const res = await fetch("http://localhost:3000/create/user", {
-        method: "POST",
+      const url = id
+        ? `http://localhost:3000/create/user/${id}`
+        : "http://localhost:3000/create/user";
+
+      const method = id ? "PATCH" : "POST";
+
+      const res = await fetch(url, {
+        method,
         headers: {
           "Content-Type": "application/json",
-          Authorization: rol, // aquí va el rol
+          Authorization: rol,
         },
         body: JSON.stringify(payload),
       });
 
       if (res.ok) {
-        onRegisterSuccess();
+        // Redirige al componente de lista de usuarios
+        navigate("/usersList");
       } else {
         const data = await res.json();
-        setError(data.message || "Error en el registro.");
+        setError(data.message || "Error en la operación.");
       }
-    } catch (err) {
+    } catch {
       setError("Error de conexión con el servidor.");
     }
   };
 
+  if (loading)
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500 border-solid"></div>
+        <span className="ml-4 text-blue-600 font-semibold">
+          Cargando usuario...
+        </span>
+      </div>
+    );
+
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded shadow">
-      <h2 className="text-xl font-bold mb-4 text-center">Registrar usuario</h2>
+      <h2 className="text-xl font-bold mb-4 text-center">
+        {id ? "Actualizar usuario" : "Registrar usuario"}
+      </h2>
       {error && (
         <div className="mb-4 text-red-600 text-center text-sm">{error}</div>
       )}
@@ -91,7 +136,7 @@ const RegisterUser: React.FC<RegisterUserProps> = ({ onRegisterSuccess }) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            autoComplete="new-password" // <--- Aquí
+            autoComplete="new-password"
             className="w-full border px-3 py-2 rounded"
           />
         </div>
@@ -102,9 +147,10 @@ const RegisterUser: React.FC<RegisterUserProps> = ({ onRegisterSuccess }) => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
-            autoComplete="new-password" // <--- Aquí
+            required={!id} // si es edición, la contraseña no es obligatoria
+            autoComplete="new-password"
             className="w-full border px-3 py-2 rounded"
+            placeholder={id ? "Deja vacío para no cambiar" : ""}
           />
         </div>
 
@@ -114,8 +160,9 @@ const RegisterUser: React.FC<RegisterUserProps> = ({ onRegisterSuccess }) => {
             type="password"
             value={confirm}
             onChange={(e) => setConfirm(e.target.value)}
-            required
+            required={!id} // igual que contraseña
             className="w-full border px-3 py-2 rounded"
+            placeholder={id ? "Deja vacío para no cambiar" : ""}
           />
         </div>
 
@@ -153,7 +200,7 @@ const RegisterUser: React.FC<RegisterUserProps> = ({ onRegisterSuccess }) => {
           type="submit"
           className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
         >
-          Registrar
+          {id ? "Actualizar" : "Registrar"}
         </button>
       </form>
     </div>

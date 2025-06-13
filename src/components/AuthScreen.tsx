@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 interface AuthScreenProps {
-  onLogin: (userData: { email: string; role: string }) => void;
+  onLogin: (userData: { email: string; role: string; status: string }) => void;
 }
 
 const AuthScreen: React.FC<AuthScreenProps> = ({ onLogin }) => {
@@ -28,7 +28,7 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onLogin }) => {
         sessionStorage.setItem("email", result.email);
         sessionStorage.setItem("role", result.role);
 
-        onLogin({ email: result.email, role: result.role }); // pasa datos al padre
+        onLogin({ email: result.email, role: result.role, status: result.status }); // pasa datos al padre
       } else {
         setError("Correo o contraseña incorrectos.");
       }

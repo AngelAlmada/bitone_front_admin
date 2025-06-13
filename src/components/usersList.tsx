@@ -50,7 +50,7 @@ const UsersList: React.FC = () => {
     navigate(`/userDetails/${user.id}`);
   };
 
-  const handleEdit = (user: User) => alert(`Editar usuario ${user.name}`);
+  const handleEdit = (user: User) => navigate(`/registerUsers/${user.id}`);;
   const handleDeactivate = async (user: User) => {
     if (window.confirm(`¿Desactivar a ${user.name}?`)) {
       try {
