@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { API_ROUTES } from "../routes/apiConfig";
 
 interface AuthScreenProps {
   onLogin: (userData: { email: string; role: string; status: string }) => void;
@@ -13,7 +14,7 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onLogin }) => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:3000/auth/login", {
+      const response = await fetch(API_ROUTES.AUTH_USER, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

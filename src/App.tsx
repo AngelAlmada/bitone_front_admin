@@ -18,14 +18,18 @@ interface User {
 
 const App = () => {
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true); // <- nuevo estado
 
   useEffect(() => {
     const email = sessionStorage.getItem("email");
     const role = sessionStorage.getItem("role");
     const status = sessionStorage.getItem("status");
+
     if (email && role && status) {
       setUser({ email, role, status });
     }
+
+    setLoading(false); // <- solo termina cuando ya se intentó cargar
   }, []);
 
   const handleLogout = () => {
@@ -34,6 +38,10 @@ const App = () => {
     sessionStorage.removeItem("status");
     setUser(null);
   };
+
+  if (loading) {
+    return <div className="p-4 text-center">Cargando...</div>; // puedes usar un spinner
+  }
 
   if (!user) {
     return (
@@ -56,7 +64,10 @@ const App = () => {
           <Routes>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/registerUsers" element={<RegisterRouteWrapper />} />
-            <Route path="/registerUsers/:id" element={<RegisterRouteWrapper />} />
+            <Route
+              path="/registerUsers/:id"
+              element={<RegisterRouteWrapper />}
+            />
             <Route path="/usersList" element={<UsersList />} />
             <Route path="/userDetails/:id" element={<UserDetails />} />
             <Route path="*" element={<Navigate to="/dashboard" />} />

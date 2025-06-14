@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { ChevronLeft } from "lucide-react";
+import { API_ROUTES } from "../routes/apiConfig";
+
 
 interface RegisterUserProps {
   onRegisterSuccess: () => void;
@@ -12,7 +15,7 @@ const ROLES = [
   { label: "Supervisor", value: "SU" },
 ];
 
-const RegisterUser: React.FC<RegisterUserProps> = ({ onRegisterSuccess }) => {
+const RegisterUser: React.FC<RegisterUserProps> = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
@@ -32,7 +35,7 @@ const RegisterUser: React.FC<RegisterUserProps> = ({ onRegisterSuccess }) => {
     if (!id) return;
 
     setLoading(true);
-    fetch(`http://localhost:3000/list/users/${id}`)
+    fetch(API_ROUTES.LIST_USER(id))
       .then(async (res) => {
         if (!res.ok) throw new Error("Error al obtener usuario");
         const data = await res.json();
@@ -73,8 +76,8 @@ const RegisterUser: React.FC<RegisterUserProps> = ({ onRegisterSuccess }) => {
 
     try {
       const url = id
-        ? `http://localhost:3000/create/user/${id}`
-        : "http://localhost:3000/create/user";
+        ? API_ROUTES.UPDATE_USER(id)
+        : API_ROUTES.CREATE_USER;
 
       const method = id ? "PATCH" : "POST";
 
@@ -111,6 +114,15 @@ const RegisterUser: React.FC<RegisterUserProps> = ({ onRegisterSuccess }) => {
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded shadow">
+
+        <button
+          onClick={() => navigate("/usersList")}
+          className="flex items-center text-blue-600 hover:text-blue-800 transition focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
+          aria-label="Volver a la lista de usuarios"
+        >
+          <ChevronLeft size={24} />
+          <span className="ml-1 font-semibold text-lg">Volver</span>
+        </button>
       <h2 className="text-xl font-bold mb-4 text-center">
         {id ? "Actualizar usuario" : "Registrar usuario"}
       </h2>

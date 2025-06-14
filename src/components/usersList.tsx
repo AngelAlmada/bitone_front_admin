@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Eye, Edit2, Slash, Plus, CheckCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { API_ROUTES } from "../routes/apiConfig";
 
 interface User {
   id: string;
@@ -32,7 +33,7 @@ const UsersList: React.FC = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await fetch("http://localhost:3000/list/users");
+        const res = await fetch(API_ROUTES.LIST_USERS);
         if (!res.ok) throw new Error("Error al obtener usuarios");
         const data = await res.json();
         setUsers(data);
@@ -54,8 +55,7 @@ const UsersList: React.FC = () => {
   const handleDeactivate = async (user: User) => {
     if (window.confirm(`¿Desactivar a ${user.name}?`)) {
       try {
-        const res = await fetch(
-          `http://localhost:3000/desactivate/user/${user.id}`,
+        const res = await fetch(API_ROUTES.DESACTIVATE_USER(user.id),
           {
             method: "DELETE",
           }
@@ -83,8 +83,7 @@ const UsersList: React.FC = () => {
   const handleActivate = async (user: User) => {
     if (window.confirm(`¿Activar a ${user.name}?`)) {
       try {
-        const res = await fetch(
-          `http://localhost:3000/desactivate/user/${user.id}`,
+        const res = await fetch(API_ROUTES.DESACTIVATE_USER(user.id),
           {
             method: "POST",
           }
