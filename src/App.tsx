@@ -9,10 +9,13 @@ import AuthScreen from "./components/AuthScreen";
 import RegisterRouteWrapper from "./components/RegisterRouteWrapper";
 import UsersList from "./components/usersList";
 import { UserDetails } from "./components/userDetails";
+import DealerList from "./components/dealerList";
+import DealerForm from "./components/RegisterDealerForm";
+import DealerView from "./components/DealerView";
 
 interface User {
   email: string;
-  role: string;
+  rol: string;
   status: string;
 }
 
@@ -22,11 +25,11 @@ const App = () => {
 
   useEffect(() => {
     const email = sessionStorage.getItem("email");
-    const role = sessionStorage.getItem("role");
+    const rol = sessionStorage.getItem("rol");
     const status = sessionStorage.getItem("status");
 
-    if (email && role && status) {
-      setUser({ email, role, status });
+    if (email && rol && status) {
+      setUser({ email, rol, status });
     }
 
     setLoading(false); // <- solo termina cuando ya se intentó cargar
@@ -34,7 +37,7 @@ const App = () => {
 
   const handleLogout = () => {
     sessionStorage.removeItem("email");
-    sessionStorage.removeItem("role");
+    sessionStorage.removeItem("rol");
     sessionStorage.removeItem("status");
     setUser(null);
   };
@@ -48,7 +51,7 @@ const App = () => {
       <AuthScreen
         onLogin={(userData) => {
           sessionStorage.setItem("email", userData.email);
-          sessionStorage.setItem("role", userData.role);
+          sessionStorage.setItem("rol", userData.rol);
           sessionStorage.setItem("status", userData.status);
           setUser(userData);
         }}
@@ -58,17 +61,21 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <div className="flex h-screen">
+      <div className="flex h-screen overflow-hidden">
         <Sidebar onLogout={handleLogout} />
-        <main className="flex-1 p-4">
+        <main className="flex-1 h-screen overflow-y-auto bg-gray-100 p-4">
           <Routes>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/registerUsers" element={<RegisterRouteWrapper />} />
+            <Route path="/RegisterDealerForm" element={<DealerForm />} />
+            <Route path="/RegisterDealerForm/:id" element={<DealerForm />} />
+            <Route path="/DealerView/:id" element={<DealerView />} />
             <Route
               path="/registerUsers/:id"
               element={<RegisterRouteWrapper />}
             />
             <Route path="/usersList" element={<UsersList />} />
+            <Route path="/dealerList" element={<DealerList />} />
             <Route path="/userDetails/:id" element={<UserDetails />} />
             <Route path="*" element={<Navigate to="/dashboard" />} />
           </Routes>

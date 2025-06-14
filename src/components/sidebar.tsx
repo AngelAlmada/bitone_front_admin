@@ -13,33 +13,60 @@ export default function Sidebar({ onLogout }: SidebarProps) {
 
   return (
     <>
+      {/* Mobile toggle button */}
       <button
-        className="md:hidden p-4 absolute top-4 left-4 z-50 text-gray-700 bg-white rounded shadow"
+        className="md:hidden fixed p-3 top-4 left-4 z-50 text-gray-700 bg-white rounded-full shadow-lg transition-transform hover:scale-105"
         onClick={toggleSidebar}
       >
         {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
 
+      {/* Sidebar container */}
       <div
-        className={`fixed md:static top-0 left-0 h-screen w-64 bg-gray-800 text-white transform transition-transform duration-300 z-40 ${
+        className={`fixed inset-y-0 left-0 w-64 bg-gray-800 text-white z-40 md:static md:z-auto transform transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0`}
+        } md:translate-x-0 flex flex-col h-screen`} // usa h-screen en lugar de h-[100vh]
       >
-        <div className="p-6 text-xl font-bold border-b border-gray-700">
+        {/* Header - sticky */}
+        <div className="p-6 text-xl font-bold border-b border-gray-700 sticky top-0 bg-gray-800 z-10">
           My App
         </div>
-        <nav className="flex flex-col gap-4 p-6 flex-grow">
-          <Link to="/dashboard" className="hover:bg-gray-700 p-2 rounded">
-            Dashboard
-          </Link>
-          <Link to="/usersList" className="hover:bg-gray-700 p-2 rounded">
-            Usuarios
-          </Link>
-        </nav>
-        <div className="p-6 border-t border-gray-700">
+
+        {/* Scrollable nav content */}
+        <div className="flex-1 overflow-y-auto">
+          <nav className="flex flex-col gap-1 p-4">
+            <Link
+              to="/dashboard"
+              className="hover:bg-gray-700 p-3 rounded-lg transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              Dashboard
+            </Link>
+            <Link
+              to="/usersList"
+              className="hover:bg-gray-700 p-3 rounded-lg transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              Usuarios
+            </Link>
+            <Link
+              to="/dealerList"
+              className="hover:bg-gray-700 p-3 rounded-lg transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              Repartidores
+            </Link>
+          </nav>
+        </div>
+
+        {/* Footer - sticky */}
+        <div className="p-4 border-t border-gray-700 sticky bottom-0 bg-gray-800">
           <button
-            onClick={onLogout}
-            className="w-full flex items-center gap-2 justify-center bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded"
+            onClick={() => {
+              onLogout();
+              setIsOpen(false);
+            }}
+            className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg transition-colors"
           >
             <LogOut size={20} />
             Cerrar sesión

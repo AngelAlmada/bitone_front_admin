@@ -2,7 +2,7 @@ import { useState } from "react";
 import { API_ROUTES } from "../routes/apiConfig";
 
 interface AuthScreenProps {
-  onLogin: (userData: { email: string; role: string; status: string }) => void;
+  onLogin: (userData: { email: string; rol: string; status: string }) => void;
 }
 
 const AuthScreen: React.FC<AuthScreenProps> = ({ onLogin }) => {
@@ -27,9 +27,9 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onLogin }) => {
       if (response.ok && result.success) {
         // Guarda datos en localStorage o sessionStorage
         sessionStorage.setItem("email", result.email);
-        sessionStorage.setItem("role", result.role);
+        sessionStorage.setItem("rol", result.rol);
 
-        onLogin({ email: result.email, role: result.role, status: result.status }); // pasa datos al padre
+        onLogin({ email: result.email, rol: result.rol, status: result.status }); // pasa datos al padre
       } else {
         setError("Correo o contraseña incorrectos.");
       }

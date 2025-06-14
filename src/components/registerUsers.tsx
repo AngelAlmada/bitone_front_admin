@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import { API_ROUTES } from "../routes/apiConfig";
 
-
 interface RegisterUserProps {
   onRegisterSuccess: () => void;
 }
@@ -27,10 +26,28 @@ const RegisterUser: React.FC<RegisterUserProps> = () => {
   const [idDealer, setIdDealer] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [dealers, setDealers] = useState<any[]>([]);
 
   const isRepartidor = rol === "RP";
 
-  // Fetch user data si hay id (modo edición)
+  // 🔁 Cargar lista de dealers
+  useEffect(() => {
+    fetch("http://localhost:3000/dealer", {
+      headers: {
+        Authorization: sessionStorage.getItem("rol") || "", // por si es null
+      },
+    })
+      .then(async (res) => {
+        if (!res.ok) throw new Error("Error al obtener los dealers");
+        const data = await res.json();
+        setDealers(data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
+  // 🔁 Cargar datos si es edición
   useEffect(() => {
     if (!id) return;
 
@@ -41,7 +58,6 @@ const RegisterUser: React.FC<RegisterUserProps> = () => {
         const data = await res.json();
         setName(data.name || "");
         setEmail(data.email || "");
-        // Por seguridad, deja password vacío
         setPassword("");
         setConfirm("");
         setRol(data.rol || "");
@@ -65,19 +81,23 @@ const RegisterUser: React.FC<RegisterUserProps> = () => {
       return;
     }
 
-    const payload = {
+    const payload: any = {
       name,
       email,
       password,
       rol,
-      id_dealer: isRepartidor ? Number(idDealer) : undefined,
       status: "A",
     };
 
+    // Si el rol es repartidor, añade id_dealer como string
+    if (rol === "RP" && idDealer) {
+      payload.id_dealer = idDealer;
+    }
+
+    console.log("ID del repartidor seleccionado:", idDealer);
+
     try {
-      const url = id
-        ? API_ROUTES.UPDATE_USER(id)
-        : API_ROUTES.CREATE_USER;
+      const url = id ? API_ROUTES.UPDATE_USER(id) : API_ROUTES.CREATE_USER;
 
       const method = id ? "PATCH" : "POST";
 
@@ -114,15 +134,14 @@ const RegisterUser: React.FC<RegisterUserProps> = () => {
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded shadow">
-
-        <button
-          onClick={() => navigate("/usersList")}
-          className="flex items-center text-blue-600 hover:text-blue-800 transition focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
-          aria-label="Volver a la lista de usuarios"
-        >
-          <ChevronLeft size={24} />
-          <span className="ml-1 font-semibold text-lg">Volver</span>
-        </button>
+      <button
+        onClick={() => navigate("/usersList")}
+        className="flex items-center text-blue-600 hover:text-blue-800 transition focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
+        aria-label="Volver a la lista de usuarios"
+      >
+        <ChevronLeft size={24} />
+        <span className="ml-1 font-semibold text-lg">Volver</span>
+      </button>
       <h2 className="text-xl font-bold mb-4 text-center">
         {id ? "Actualizar usuario" : "Registrar usuario"}
       </h2>
@@ -197,14 +216,22 @@ const RegisterUser: React.FC<RegisterUserProps> = () => {
 
         {isRepartidor && (
           <div>
-            <label className="block mb-1 font-medium">ID Dealer</label>
-            <input
-              type="text"
+            <label className="block mb-1 font-medium">
+              Selecciona un Dealer
+            </label>
+            <select
               value={idDealer}
               onChange={(e) => setIdDealer(e.target.value)}
-              required={isRepartidor}
+              required
               className="w-full border px-3 py-2 rounded"
-            />
+            >
+              <option value="">-- Selecciona un dealer --</option>
+              {dealers.map((dealer) => (
+                <option key={dealer.id} value={dealer.id}>
+                  {dealer.name} {dealer.last_name} {dealer.last_name2}
+                </option>
+              ))}
+            </select>
           </div>
         )}
 

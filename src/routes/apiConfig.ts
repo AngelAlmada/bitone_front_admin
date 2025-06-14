@@ -8,6 +8,9 @@ export const API_ROUTES = {
   UPDATE_USER: (id: string) => `${BASE_URL}/create/user/${id}`,
   LIST_USER: (id: string) => `${BASE_URL}/list/users/${id}`,
   LIST_USERS: `${BASE_URL}/list/users`,
-  DESACTIVATE_USER: (id: string) => `${BASE_URL}/desactivate/user/${id}`
+  DESACTIVATE_USER: (id: string) => `${BASE_URL}/desactivate/user/${id}`,
+  LIST_DEALER: `${BASE_URL}/dealer`,
+  UPDATE_DEALER: (id: string) => `${BASE_URL}/dealer/${id}`,
+  ACTIVATE_DEALER: (id: string) => `${BASE_URL}/dealer/activate/${id}`
   // Agrega más rutas aquí
 };
