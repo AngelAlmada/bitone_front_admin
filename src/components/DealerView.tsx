@@ -2,16 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import { API_ROUTES } from "../routes/apiConfig";
-
-interface DealerData {
-  id: string;
-  name: string;
-  last_name: string;
-  last_name2: string;
-  phone: string;
-  status: string;
-  imageUrl?: string | null;
-}
+import type { DealerData } from "../interfaces/Dealer";
 
 const DealerView: React.FC = () => {
   const { id } = useParams<{ id: string }>();

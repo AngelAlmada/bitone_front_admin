@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import { API_ROUTES } from "../routes/apiConfig";
+import { useDealerList } from "../hooks/dealer/useDealerList";
+import { useDetailId } from "../hooks/users/useDetailId";
 
 interface RegisterUserProps {
   onRegisterSuccess: () => void;
@@ -18,54 +20,40 @@ const RegisterUser: React.FC<RegisterUserProps> = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
-  const [rol, setRol] = useState("");
-  const [idDealer, setIdDealer] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [dealers, setDealers] = useState<any[]>([]);
+  const { dealers } = useDealerList();
 
-  const isRepartidor = rol === "RP";
+  const {
+    Dname,
+    Demail,
+    Dpassword,
+    Dconfirm,
+    Drol,
+    DidDealer,
+    Derrors,
+    Dloading,
+    DisRepartidor,
+  } = useDetailId(id);
 
-  // 🔁 Cargar lista de dealers
+  const [name, setName] = useState(Dname);
+  const [email, setEmail] = useState(Demail);
+  const [password, setPassword] = useState(Dpassword);
+  const [confirm, setConfirm] = useState(Dconfirm);
+  const [rol, setRol] = useState(Drol);
+  const [idDealer, setIdDealer] = useState(DidDealer);
+  const [loading, setLoading] = useState(Dloading);
+  const isRepartidor = DisRepartidor;
+
   useEffect(() => {
-    fetch("http://localhost:3000/dealer", {
-      headers: {
-        Authorization: sessionStorage.getItem("rol") || "", // por si es null
-      },
-    })
-      .then(async (res) => {
-        if (!res.ok) throw new Error("Error al obtener los dealers");
-        const data = await res.json();
-        setDealers(data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, []);
+    if (Dname) setName(Dname);
+    if (Demail) setEmail(Demail);
+    if (Dpassword) setPassword(Dpassword);
+    if (Dconfirm) setConfirm(Dconfirm);
+    if (Drol) setRol(Drol);
+    if (DidDealer) setIdDealer(DidDealer);
+    setLoading(Dloading);
+  }, [Dname, Demail, Dpassword, Dconfirm, Drol, DidDealer, Dloading]);
 
-  // 🔁 Cargar datos si es edición
-  useEffect(() => {
-    if (!id) return;
-
-    setLoading(true);
-    fetch(API_ROUTES.LIST_USER(id))
-      .then(async (res) => {
-        if (!res.ok) throw new Error("Error al obtener usuario");
-        const data = await res.json();
-        setName(data.name || "");
-        setEmail(data.email || "");
-        setPassword("");
-        setConfirm("");
-        setRol(data.rol || "");
-        setIdDealer(data.id_dealer || "");
-      })
-      .catch((err) => setError(err.message || "Error desconocido"))
-      .finally(() => setLoading(false));
-  }, [id]);
+  const [error, setError] = useState(Derrors);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

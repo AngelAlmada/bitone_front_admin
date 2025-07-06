@@ -1,110 +1,49 @@
-import React, { useEffect, useState } from "react";
-import { Eye, Edit2, Slash, Plus, CheckCircle } from "lucide-react";
+import React from "react";
+import { Eye, Edit2, Slash, Plus, CheckCircle} from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { API_ROUTES } from "../routes/apiConfig";
-
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-  rol: string;
-  id_dealer: string;
-  status: string;
-}
-
-const roleMap: Record<string, { label: string; color: string }> = {
-  A: { label: "Administrador", color: "bg-blue-100 text-blue-700" },
-  RE: { label: "Recepcionista", color: "bg-purple-100 text-purple-700" },
-  RP: { label: "Repartidor", color: "bg-yellow-100 text-yellow-700" },
-  SU: { label: "Supervisor", color: "bg-pink-100 text-pink-700" },
-};
+import type { IUser } from "../interfaces/User";
+import { roleMap } from "../constants/roles";
+import { useFetchUsers } from "../hooks/users/useFetchUsers";
+import { useDesactivateUser } from "../hooks/users/useDesactivateUser";
+import { useActivateUsers } from "../hooks/users/useActivateUsers";
 
 const UsersList: React.FC = () => {
   const navigate = useNavigate();
 
+  // función para navegar al componente de crear usuarios
   const handleCreateUser = () => {
     navigate("/registerUsers");
   };
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const res = await fetch(API_ROUTES.LIST_USERS);
-        if (!res.ok) throw new Error("Error al obtener usuarios");
-        const data = await res.json();
-        setUsers(data);
-      } catch (err: any) {
-        setError(err.message || "Error desconocido");
-      } finally {
-        setLoading(false);
-      }
-    };
+  // se obtiene el fetch usando la API con un Hook personalizado
+  const { users, loading, error, refetch } = useFetchUsers();
 
-    fetchUsers();
-  }, []);
+  // Se obtiene el hook personalizado para desactivar usuarios
+  const { desactivate } = useDesactivateUser(refetch);
 
-  const handleView = (user: User) => {
+  // Se obtiene el hook personalizado para activar usuarios
+  const { activate } = useActivateUsers(refetch);
+
+  // -------------------------------------------------------- Inicio de Handle
+                                                                                  
+  //función para navegar al componente de ver usuarios
+  const handleView = (user: IUser) => {
     navigate(`/userDetails/${user.id}`);
   };
 
-  const handleEdit = (user: User) => navigate(`/registerUsers/${user.id}`);;
-  const handleDeactivate = async (user: User) => {
-    if (window.confirm(`¿Desactivar a ${user.name}?`)) {
-      try {
-        const res = await fetch(API_ROUTES.DESACTIVATE_USER(user.id),
-          {
-            method: "DELETE",
-          }
-        );
+  //Función para navegar al componente de editar usuarios
+  const handleEdit = (user: IUser) => navigate(`/registerUsers/${user.id}`);
 
-        if (!res.ok) {
-          const errorData = await res.json();
-          throw new Error(
-            errorData.message || "Error al desactivar el usuario"
-          );
-        }
-
-        alert(`Usuario ${user.name} desactivado correctamente.`);
-
-        // Actualizar localmente el estado para reflejar el cambio en UI:
-        setUsers((prevUsers) =>
-          prevUsers.map((u) => (u.id === user.id ? { ...u, status: "I" } : u))
-        );
-      } catch (error: any) {
-        alert(`Error: ${error.message}`);
-      }
-    }
+  // Función para desactivar usuarios
+  const handleDeactivate = (user: IUser) => {
+    desactivate(user);
   };
 
-  const handleActivate = async (user: User) => {
-    if (window.confirm(`¿Activar a ${user.name}?`)) {
-      try {
-        const res = await fetch(API_ROUTES.DESACTIVATE_USER(user.id),
-          {
-            method: "POST",
-          }
-        );
-
-        if (!res.ok) {
-          const errorData = await res.json();
-          throw new Error(errorData.message || "Error al activar el usuario");
-        }
-
-        alert(`Usuario ${user.name} Activado correctamente.`);
-
-        // Actualizar localmente el estado para reflejar el cambio en UI:
-        setUsers((prevUsers) =>
-          prevUsers.map((u) => (u.id === user.id ? { ...u, status: "A" } : u))
-        );
-      } catch (error: any) {
-        alert(`Error: ${error.message}`);
-      }
-    }
+  const handleActivate = (user: IUser) => {
+    activate(user);
   };
+
+  // ------------------------------------------------------- Fin de Handle
 
   if (loading)
     return (

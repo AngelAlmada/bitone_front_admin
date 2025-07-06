@@ -1,58 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { ChevronLeft, Zap } from "lucide-react";
+import React from "react";
+import { ChevronLeft} from "lucide-react";
 import { useParams, useNavigate } from "react-router-dom";
-import { API_ROUTES } from "../routes/apiConfig";
-
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-  rol: string;
-  id_dealer: string;
-  status: string;
-}
-
-const roleMap: Record<string, { label: string; color: string }> = {
-  A: { label: "Administrador", color: "bg-blue-100 text-blue-700" },
-  RE: { label: "Recepcionista", color: "bg-purple-100 text-purple-700" },
-  RP: { label: "Repartidor", color: "bg-yellow-100 text-yellow-700" },
-  SU: { label: "Supervisor", color: "bg-pink-100 text-pink-700" },
-};
-
-
+import { roleMap } from "../constants/roles";
+import { useDetails } from "../hooks/users/useDetails";
 
 export const UserDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-  const fetchUser = async () => {
-    if (!id) {
-      setError("ID de usuario no proporcionado.");
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const res = await fetch(API_ROUTES.LIST_USER(id));
-      if (!res.ok) throw new Error("Error al obtener usuario");
-      const data = await res.json();
-      setUser(data);
-    } catch (err: any) {Zap
-      setError(err.message || "Error desconocido");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  fetchUser();
-}, [id]);
-
+  const {user, loading, error} = useDetails(id)
 
   if (loading)
     return (

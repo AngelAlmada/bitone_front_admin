@@ -2,23 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Eye, Edit2, Slash, Plus, CheckCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { API_ROUTES } from "../routes/apiConfig";
-
-interface Dealer {
-  id: string;
-  name: string;
-  last_name: string;
-  last_name2: string;
-  phone: string;
-  status: string;
-  imageUrl?: string | null;
-  email?: string;
-  rol?: string;
-  id_dealer?: string;
-}
+import type { DealerData } from "../interfaces/Dealer";
 
 const DealerList: React.FC = () => {
   const navigate = useNavigate();
-  const [dealers, setDealers] = useState<Dealer[]>([]);
+  const [dealers, setDealers] = useState<DealerData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -35,7 +23,6 @@ const DealerList: React.FC = () => {
         });
 
         if (!res.ok) {
-          const text = await res.text();
           throw new Error(
             `Error al obtener repartidores: ${res.status} ${res.statusText}`
           );
@@ -55,12 +42,12 @@ const DealerList: React.FC = () => {
   }, []);
 
   const handleCreateUser = () => navigate("/RegisterDealerForm");
-  const handleView = (dealer: Dealer) =>
+  const handleView = (dealer: DealerData) =>
     navigate(`/dealerView/${dealer.id}`);
-  const handleEdit = (dealer: Dealer) =>
+  const handleEdit = (dealer: DealerData) =>
     navigate(`/RegisterDealerForm/${dealer.id}`);
 
-  const handleDeactivate = async (dealer: Dealer) => {
+  const handleDeactivate = async (dealer: DealerData) => {
     if (window.confirm(`¿Desactivar a ${dealer.name}?`)) {
       try {
         const res = await fetch(API_ROUTES.UPDATE_DEALER(dealer.id), {
@@ -79,7 +66,7 @@ const DealerList: React.FC = () => {
     }
   };
 
-  const handleActivate = async (dealer: Dealer) => {
+  const handleActivate = async (dealer: DealerData) => {
     if (window.confirm(`¿Activar a ${dealer.name}?`)) {
       try {
         const res = await fetch(API_ROUTES.ACTIVATE_DEALER(dealer.id), {
