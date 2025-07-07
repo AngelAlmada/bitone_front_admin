@@ -3,13 +3,13 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import "./index.css";
 
-import Sidebar from "./components/Sidebar";
+import Sidebar from "./components/sidebar";
 import Dashboard from "./components/Dashboard";
 import AuthScreen from "./components/AuthScreen";
 import RegisterRouteWrapper from "./components/RegisterRouteWrapper";
-import UsersList from "./components/UsersList";
-import { UserDetails } from "./components/UserDetails";
-import DealerList from "./components/DealerList";
+import UsersList from "./components/usersList";
+import UserDetails from "./components/userDetails";
+import DealerList from "./components/dealerList";
 import DealerForm from "./components/RegisterDealerForm";
 import DealerView from "./components/DealerView";
 import { Clients } from "./pages/Clients";

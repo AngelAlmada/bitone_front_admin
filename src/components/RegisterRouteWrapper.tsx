@@ -1,6 +1,6 @@
 // src/components/RegisterRouteWrapper.tsx
 import { useNavigate } from "react-router-dom";
-import RegisterUser from "./RegisterUsers";
+import RegisterUser from "./registerUsers";
 
 const RegisterRouteWrapper = () => {
   const navigate = useNavigate();
