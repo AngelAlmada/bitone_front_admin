@@ -12,7 +12,7 @@ import { UserDetails } from "./components/userDetails";
 import DealerList from "./components/dealerList";
 import DealerForm from "./components/RegisterDealerForm";
 import DealerView from "./components/DealerView";
-import Clients from "./pages/ClientsInfo";
+import Clients from "./pages/OrderTypePage";
 
 interface User {
   email: string;
