@@ -4,15 +4,15 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./index.css";
 
 import Sidebar from "./components/sidebar";
-import Dashboard from "./components/Dashboard";
+import Dashboard from "./components/DashBoard";
 import AuthScreen from "./components/AuthScreen";
 import RegisterRouteWrapper from "./components/RegisterRouteWrapper";
 import UsersList from "./components/usersList";
-import UserDetails from "./components/userDetails";
+import { UserDetails } from "./components/userDetails";
 import DealerList from "./components/dealerList";
 import DealerForm from "./components/RegisterDealerForm";
 import DealerView from "./components/DealerView";
-import { Clients } from "./pages/Clients";
+import Clients from "./pages/OrderTypePage";
 
 interface User {
   email: string;
