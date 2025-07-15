@@ -5,10 +5,6 @@ import { API_ROUTES } from "../routes/apiConfig";
 import { useDealerList } from "../hooks/dealer/useDealerList";
 import { useDetailId } from "../hooks/users/useDetailId";
 
-interface RegisterUserProps {
-  onRegisterSuccess: () => void;
-}
-
 const ROLES = [
   { label: "Administrador", value: "A" },
   { label: "Recepcionista", value: "RE" },
@@ -16,7 +12,7 @@ const ROLES = [
   { label: "Supervisor", value: "SU" },
 ];
 
-const RegisterUser: React.FC<RegisterUserProps> = () => {
+const RegisterUser = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 

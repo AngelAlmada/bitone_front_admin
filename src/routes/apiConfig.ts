@@ -1,6 +1,6 @@
 // src/config/apiConfig.ts
 
-const BASE_URL = "https://bitone-back.onrender.com";
+const BASE_URL = "http://localhost:3000";
 
 export const API_ROUTES = {
   AUTH_USER: `${BASE_URL}/auth/login`,
@@ -11,6 +11,7 @@ export const API_ROUTES = {
   DESACTIVATE_USER: (id: string) => `${BASE_URL}/desactivate/user/${id}`,
   LIST_DEALER: `${BASE_URL}/dealer`,
   UPDATE_DEALER: (id: string) => `${BASE_URL}/dealer/${id}`,
-  ACTIVATE_DEALER: (id: string) => `${BASE_URL}/dealer/activate/${id}`
+  ACTIVATE_DEALER: (id: string) => `${BASE_URL}/dealer/activate/${id}`,
+  LIST_PRODUCTS: `${BASE_URL}/products`
   // Agrega más rutas aquí
 };

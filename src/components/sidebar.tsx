@@ -29,7 +29,7 @@ export default function Sidebar({ onLogout }: SidebarProps) {
       >
         {/* Header - sticky */}
         <div className="p-6 text-xl font-bold border-b border-gray-700 sticky top-0 bg-gray-800 z-10">
-          My App
+          Delivery Tacos
         </div>
 
         {/* Scrollable nav content */}
@@ -55,6 +55,13 @@ export default function Sidebar({ onLogout }: SidebarProps) {
               onClick={() => setIsOpen(false)}
             >
               Repartidores
+            </Link>
+             <Link
+              to="/productsList"
+              className="hover:bg-gray-700 p-3 rounded-lg transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              Productos
             </Link>
           </nav>
         </div>
