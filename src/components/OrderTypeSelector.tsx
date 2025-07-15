@@ -2,54 +2,20 @@ import React from 'react';
 
 const OrderTypeSelector: React.FC = () => {
   return (
-    <div style={styles.container}>
-      <h3 style={styles.title}>Selecciona el tipo de pedido</h3>
-      <button style={styles.pickupBtn}>🏬 Recoger en tienda</button>
-      <button style={styles.deliveryBtn}>🏍️ Entrega a domicilio</button>
+    <div className="mt-8 flex flex-col items-center gap-4 px-4">
+      <h3 className="text-lg font-bold text-center mb-4">
+        Selecciona el tipo de pedido
+      </h3>
+
+      <button className="w-full max-w-[350px] px-6 py-4 text-lg text-white bg-green-600 rounded-xl shadow-md hover:bg-green-700 active:scale-95 transition-transform">
+        🏬 Recoger en tienda
+      </button>
+
+      <button className="w-full max-w-[350px] px-6 py-4 text-lg text-white bg-blue-600 rounded-xl shadow-md hover:bg-blue-700 active:scale-95 transition-transform">
+        🏍️ Entrega a domicilio
+      </button>
     </div>
   );
-};
-
-const styles: { [key: string]: React.CSSProperties } = {
-  container: {
-    marginTop: '32px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: '16px',
-  },
-  title: {
-    fontSize: '18px',
-    fontWeight: 'bold',
-    marginBottom: '16px',
-    textAlign: 'center',
-  },
-  pickupBtn: {
-    width: '90%',
-    maxWidth: '350px',
-    padding: '18px',
-    fontSize: '18px',
-    backgroundColor: '#34a853',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '12px',
-    cursor: 'pointer',
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-    transition: 'transform 0.2s',
-  },
-  deliveryBtn: {
-    width: '90%',
-    maxWidth: '350px',
-    padding: '18px',
-    fontSize: '18px',
-    backgroundColor: '#4285f4',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '12px',
-    cursor: 'pointer',
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-    transition: 'transform 0.2s',
-  },
 };
 
 export default OrderTypeSelector;
