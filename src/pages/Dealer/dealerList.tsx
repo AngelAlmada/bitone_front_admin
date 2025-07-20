@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Eye, Edit2, Slash, Plus, CheckCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { API_ROUTES } from "../routes/apiConfig";
-import type { DealerData } from "../interfaces/Dealer";
+import { API_ROUTES } from "../../routes/apiConfig";
+import type { DealerData } from "../../interfaces/Dealer";
 
 const DealerList: React.FC = () => {
   const navigate = useNavigate();

@@ -3,15 +3,15 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import "./index.css";
 
-import Sidebar from "./components/SideBar";
-import Dashboard from "./components/DashBoard";
+import Sidebar from "./components/sidebar";
+import Dashboard from "./components/Dashboard";
 import AuthScreen from "./components/AuthScreen";
-import RegisterRouteWrapper from "./components/RegisterRouteWrapper";
-import UsersList from "./components/UsersList";
-import { UserDetails } from "./components/UserDetails";
-import DealerList from "./components/DealerList";
-import DealerForm from "./components/RegisterDealerForm";
-import DealerView from "./components/DealerView";
+import RegisterRouteWrapper from "./pages/User/RegisterRouteWrapper";
+import UsersList from "./pages/User/usersList";
+import UserDetails from "./pages/User/userDetails";
+import DealerList from "./pages/Dealer/dealerList";
+import DealerForm from "./pages/Dealer/DealerForm";
+import DealerView from "./pages/Dealer/DealerView";
 import { Clients } from "./pages/Clients";
 import { Products } from "./pages/Products/Products";
 import { ProductsCreate } from "./pages/Products/components/ProductsCreate";
@@ -99,7 +99,10 @@ const App = () => {
                     <Route path="/usersList" element={<UsersList />} />
                     <Route path="/dealerList" element={<DealerList />} />
                     <Route path="/productsList" element={<Products />} />
-                    <Route path="/ProductsCreate" element={<ProductsCreate />} />
+                    <Route
+                      path="/ProductsCreate"
+                      element={<ProductsCreate />}
+                    />
                     <Route path="/userDetails/:id" element={<UserDetails />} />
                     <Route path="*" element={<Navigate to="/dashboard" />} />
                   </Routes>

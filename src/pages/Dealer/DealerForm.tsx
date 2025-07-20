@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
-import { API_ROUTES } from "../routes/apiConfig";
+import { API_ROUTES } from "../../routes/apiConfig";
 
 interface DealerFormData {
   name: string;

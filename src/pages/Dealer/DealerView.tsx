@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
-import { API_ROUTES } from "../routes/apiConfig";
-import type { DealerData } from "../interfaces/Dealer";
+import { API_ROUTES } from "../../routes/apiConfig";
+import type { DealerData } from "../../interfaces/Dealer";
 
 const DealerView: React.FC = () => {
   const { id } = useParams<{ id: string }>();

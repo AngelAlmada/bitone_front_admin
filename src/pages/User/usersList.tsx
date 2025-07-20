@@ -1,11 +1,11 @@
 import React from "react";
 import { Eye, Edit2, Slash, Plus, CheckCircle} from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import type { IUser } from "../interfaces/User";
-import { roleMap } from "../constants/roles";
-import { useFetchUsers } from "../hooks/users/useFetchUsers";
-import { useDesactivateUser } from "../hooks/users/useDesactivateUser";
-import { useActivateUsers } from "../hooks/users/useActivateUsers";
+import type { IUser } from "../../interfaces/User";
+import { roleMap } from "../../constants/roles";
+import { useFetchUsers } from "../../hooks/users/useFetchUsers";
+import { useDesactivateUser } from "../../hooks/users/useDesactivateUser";
+import { useActivateUsers } from "../../hooks/users/useActivateUsers";
 
 const UsersList: React.FC = () => {
   const navigate = useNavigate();

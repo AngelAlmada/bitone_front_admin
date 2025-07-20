@@ -12,7 +12,12 @@ const ROLES = [
   { label: "Supervisor", value: "SU" },
 ];
 
-const RegisterUser = () => {
+interface RegisterUserProps {
+  onRegisterSuccess: () => void;
+}
+
+
+const RegisterUser: React.FC<RegisterUserProps> = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 

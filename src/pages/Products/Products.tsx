@@ -2,7 +2,6 @@ import { useProductsList } from "./hooks/useProductsList";
 import { categoryMap } from "../../constants/categorys";
 import { ProductType } from "./enums/enumsProducts";
 import { Eye, Edit2, Slash, Plus, CheckCircle } from "lucide-react";
-import { ProductsCreate } from "./components/ProductsCreate";
 import { useNavigate } from "react-router-dom";
 
 export const Products = () => {
