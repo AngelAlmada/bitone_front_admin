@@ -11,6 +11,7 @@ export const API_ROUTES = {
   DESACTIVATE_USER: (id: string) => `${BASE_URL}/desactivate/user/${id}`,
   LIST_DEALER: `${BASE_URL}/dealer`,
   UPDATE_DEALER: (id: string) => `${BASE_URL}/dealer/${id}`,
-  ACTIVATE_DEALER: (id: string) => `${BASE_URL}/dealer/activate/${id}`
+  ACTIVATE_DEALER: (id: string) => `${BASE_URL}/dealer/activate/${id}`,
+  LIST_PRODUCTS: `${BASE_URL}/products`
   // Agrega más rutas aquí
 };

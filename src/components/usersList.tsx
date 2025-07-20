@@ -93,13 +93,13 @@ const UsersList: React.FC = () => {
                 <td className="py-3 px-6">{user.name}</td>
                 <td className="py-3 px-6">{user.email}</td>
                 <td className="py-3 px-6">
-                  <span
-                    className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      roleMap[user.rol]?.color || "bg-gray-200 text-gray-700"
-                    }`}
-                  >
-                    {roleMap[user.rol]?.label || user.rol}
-                  </span>
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        roleMap[user.rol]?.color || "bg-gray-200 text-gray-700"
+                      }`}
+                    >
+                      {roleMap[user.rol]?.label || user.rol}
+                    </span>
                 </td>
                 <td className="py-3 px-6">{user.id_dealer || "—"}</td>
                 <td className="py-3 px-6">
