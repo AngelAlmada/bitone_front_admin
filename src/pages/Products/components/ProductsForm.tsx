@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Products } from "../interfaces/InterfacesProducts";
 import { API_ROUTES } from "../../../routes/apiConfig";
@@ -28,6 +28,7 @@ export const ProductsForm = () => {
 
   const handleSave = async () => {
     try {
+      setLoading(false)
       const { status, ...productsWithStatus } = product;
 
       const method = id ? "PATCH" : "POST";
@@ -49,6 +50,8 @@ export const ProductsForm = () => {
         setError(data.message || "Error en la operación");
       }
     } catch {
+      console.log(error);
+      
       throw "Hubo un error al crear el producto";
     }
   };
