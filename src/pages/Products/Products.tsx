@@ -18,7 +18,7 @@ const navigate = useNavigate();
   const handleActivate = () => {};
 
   const handleCreateProduct = () => {
-    navigate("/registerProduct")
+    navigate("/ProductsCreate")
   };
   
   if (load)

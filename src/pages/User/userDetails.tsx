@@ -1,8 +1,8 @@
 import React from "react";
 import { ChevronLeft} from "lucide-react";
 import { useParams, useNavigate } from "react-router-dom";
-import { roleMap } from "../constants/roles";
-import { useDetails } from "../hooks/users/useDetails";
+import { roleMap } from "../../constants/roles";
+import { useDetails } from "../../hooks/users/useDetails";
 
 export const UserDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();

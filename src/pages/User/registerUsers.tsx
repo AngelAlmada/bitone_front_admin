@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
-import { API_ROUTES } from "../routes/apiConfig";
-import { useDealerList } from "../hooks/dealer/useDealerList";
-import { useDetailId } from "../hooks/users/useDetailId";
+import { API_ROUTES } from "../../routes/apiConfig";
+import { useDealerList } from "../../hooks/dealer/useDealerList";
+import { useDetailId } from "../../hooks/users/useDetailId";
 
 const ROLES = [
   { label: "Administrador", value: "A" },

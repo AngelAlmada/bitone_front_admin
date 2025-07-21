@@ -14,7 +14,7 @@ import DealerForm from "./pages/Dealer/DealerForm";
 import DealerView from "./pages/Dealer/DealerView";
 import { Clients } from "./pages/Clients";
 import { Products } from "./pages/Products/Products";
-import { ProductsCreate } from "./pages/Products/components/ProductsCreate";
+import { ProductsForm } from "./pages/Products/components/ProductsForm";
 
 interface User {
   email: string;
@@ -101,7 +101,7 @@ const App = () => {
                     <Route path="/productsList" element={<Products />} />
                     <Route
                       path="/ProductsCreate"
-                      element={<ProductsCreate />}
+                      element={<ProductsForm />}
                     />
                     <Route path="/userDetails/:id" element={<UserDetails />} />
                     <Route path="*" element={<Navigate to="/dashboard" />} />
