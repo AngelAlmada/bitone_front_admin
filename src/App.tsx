@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./index.css";
 
 import Sidebar from "./components/sidebar";
-import Dashboard from "./components/Dashboard";
+import Dashboard from "./components/dashboard";
 import AuthScreen from "./components/AuthScreen";
 import RegisterRouteWrapper from "./pages/User/RegisterRouteWrapper";
 import UsersList from "./pages/User/usersList";
@@ -12,7 +12,7 @@ import UserDetails from "./pages/User/userDetails";
 import DealerList from "./pages/Dealer/dealerList";
 import DealerForm from "./pages/Dealer/DealerForm";
 import DealerView from "./pages/Dealer/DealerView";
-import { Clients } from "./pages/Clients";
+import OrderTypePage from "./pages/OrderTypePage";
 import { Products } from "./pages/Products/Products";
 import { ProductsForm } from "./pages/Products/components/ProductsForm";
 
@@ -52,7 +52,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         {/* ✅ Ruta pública: Clients */}
-        <Route path="/clients" element={<Clients />} />
+        <Route path="/clients" element={<OrderTypePage />} />
 
         {/* ✅ Si el usuario no está autenticado, redirige a AuthScreen */}
         {!user ? (
