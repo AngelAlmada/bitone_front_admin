@@ -18,7 +18,7 @@ export const useProductId = (id: string) => {
       }
     };
 
-    getProduct;
+    getProduct();
   }, []);
 
   return { productId };

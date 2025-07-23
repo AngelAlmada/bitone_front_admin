@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { IProducts } from "../interfaces/InterfacesProducts";
 import { API_ROUTES } from "../../../routes/apiConfig";
@@ -11,12 +11,19 @@ export const ProductsForm = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const {productId} = useProductId(id ?? ''); 
+  const { productId } = useProductId(id ?? "");
 
   const [product, setProduct] = useState<Partial<IProducts>>({});
   const [loading, setLoading] = useState<Boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const { confirmDialog } = useAlerts();
+
+  useEffect(() => {
+    if (productId) {      
+      const {id, ...cleanedProduct} = productId
+      setProduct(cleanedProduct);
+    }
+  }, [productId]);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -43,19 +50,22 @@ export const ProductsForm = () => {
     if (!confirm) return;
 
     try {
-      setLoading(false);
+      setLoading(true);
 
       const productToSend = { ...product, status: "activo" };
 
       const method = id ? "PATCH" : "POST";
 
-      const response = await fetch(API_ROUTES.CREATE_PRODUCT, {
-        method,
-        headers: {
-          "Content-Type": "application/json", // ❗️IMPORTANTE
-        },
-        body: JSON.stringify(productToSend),
-      });
+      const response = await fetch(
+        id ? `${API_ROUTES.CREATE_PRODUCT}/${id}` : API_ROUTES.CREATE_PRODUCT,
+        {
+          method,
+          headers: {
+            "Content-Type": "application/json", // ❗️IMPORTANTE
+          },
+          body: JSON.stringify(productToSend),
+        }
+      );
 
       console.log(JSON.stringify(product));
 
@@ -69,6 +79,9 @@ export const ProductsForm = () => {
       console.log(error);
 
       throw "Hubo un error al crear el producto";
+    }
+    finally {
+      setLoading(false)
     }
   };
 
@@ -114,7 +127,7 @@ export const ProductsForm = () => {
               <input
                 id="title"
                 type="text"
-                value={productId?.name || ""}
+                value={product?.name || ""}
                 name="name"
                 required
                 onChange={handleOnChange}
@@ -135,7 +148,7 @@ export const ProductsForm = () => {
                 name="description"
                 id="description"
                 required
-                value={productId?.description || ""}
+                value={product?.description || ""}
                 onChange={handleOnChange}
                 className="w-full border border-gray-300 shadow-sm px-4 py-3 rounded-md text-base"
               />
@@ -150,7 +163,7 @@ export const ProductsForm = () => {
                 type="number"
                 name="price"
                 id="price"
-                value={productId?.price || ""}
+                value={product?.price || ""}
                 onChange={handleOnChange}
                 required
                 className="w-full border border-gray-300 shadow-sm px-4 py-3 rounded-md text-base"
@@ -168,7 +181,7 @@ export const ProductsForm = () => {
               <select
                 name="category"
                 id="category"
-                value={productId?.category || ""}
+                value={product?.category || ""}
                 onChange={(e) =>
                   setProduct((prev) => ({
                     ...prev,

@@ -1,27 +1,34 @@
 import { useProductsList } from "./hooks/useProductsList";
 import { categoryMap } from "../../constants/categorys";
 import { ProductType } from "./enums/enumsProducts";
-import { Eye, Edit2, Slash, Plus, CheckCircle } from "lucide-react";
+import { /*Eye,*/ Edit2, Slash, Plus, CheckCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { IProducts } from "./interfaces/InterfacesProducts";
+import { updateProductStatus } from "./hooks/useProductAD";
 
 export const Products = () => {
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const { products, load, error } = useProductsList();
 
-  const handleView = () => {};
+  const handleEdit = (products: IProducts) => {
+    navigate(`/ProductsCreate/${products.id}`);
+  };
 
-  const handleEdit = (products: IProducts) => {navigate(`/ProductsCreate/${products.id}`)};
+  const handleDesactivate = (products: IProducts) => {
+    updateProductStatus(products, "D", navigate);
+    products.status = "D";
+  };
 
-  const handleDeactivate = () => {};
-
-  const handleActivate = () => {};
+  const handleActivate = (products: IProducts) => {
+    updateProductStatus(products, "A", navigate);
+    products.status = "A";
+  };
 
   const handleCreateProduct = () => {
-    navigate("/ProductsCreate")
+    navigate("/ProductsCreate");
   };
-  
+
   if (load)
     return (
       <div className="flex justify-center items-center h-64">
@@ -42,7 +49,6 @@ const navigate = useNavigate();
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-3xl font-bold text-gray-800">Lista de Productos</h2>
         <button
-
           onClick={handleCreateProduct}
           className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
         >
@@ -81,13 +87,13 @@ const navigate = useNavigate();
                   </span>
                 </td>
                 <td className="py-3 px-6 flex gap-2">
-                  <button
+                  {/* <button
                     onClick={() => handleView()}
                     className="flex items-center gap-1 text-blue-600 hover:text-blue-800 text-xs"
                     title="Ver información"
                   >
                     <Eye size={16} /> Ver
-                  </button>
+                  </button> */}
                   <button
                     onClick={() => handleEdit(p)}
                     className="flex items-center gap-1 text-yellow-600 hover:text-yellow-800 text-xs"
@@ -97,7 +103,7 @@ const navigate = useNavigate();
                   </button>
                   {p.status === "A" ? (
                     <button
-                      onClick={() => handleDeactivate()}
+                      onClick={() => handleDesactivate(p)}
                       className="flex items-center gap-1 text-red-600 hover:text-red-800 text-xs"
                       title="Desactivar"
                     >
@@ -105,7 +111,7 @@ const navigate = useNavigate();
                     </button>
                   ) : (
                     <button
-                      onClick={() => handleActivate()}
+                      onClick={() => handleActivate(p)}
                       className="flex items-center gap-1 text-green-600 hover:text-green-800 text-xs"
                       title="Activar"
                     >
