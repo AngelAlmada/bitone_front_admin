@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Products } from "../interfaces/InterfacesProducts";
+import { IProducts } from "../interfaces/InterfacesProducts";
 import { API_ROUTES } from "../../../routes/apiConfig";
 
 export const useProductsList = () => {
-  const [products, setProducts] = useState<Products[]>([]);
+  const [products, setProducts] = useState<IProducts[]>([]);
   const [load, setLoad] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
 
@@ -11,7 +11,7 @@ export const useProductsList = () => {
     const getListProducts = async () => {
       try {
         const response = await fetch(API_ROUTES.LIST_PRODUCTS);
-        const data: Products[] = await response.json();
+        const data: IProducts[] = await response.json();
         setProducts(data);
       } catch (error: any) {
         setError(error.message || "Error desconocido");

@@ -1,17 +1,22 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Products } from "../interfaces/InterfacesProducts";
+import { IProducts } from "../interfaces/InterfacesProducts";
 import { API_ROUTES } from "../../../routes/apiConfig";
 import { ChevronLeft } from "lucide-react";
 import { ProductTypeLabels, ProductType } from "../enums/enumsProducts";
+import useAlerts from "../../../hooks/useAlerts";
+import { useProductId } from "../hooks/useProductId";
 
 export const ProductsForm = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const [product, setProduct] = useState<Partial<Products>>({});
+  const {productId} = useProductId(id ?? ''); 
+
+  const [product, setProduct] = useState<Partial<IProducts>>({});
   const [loading, setLoading] = useState<Boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const { confirmDialog } = useAlerts();
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -26,10 +31,21 @@ export const ProductsForm = () => {
     e.preventDefault();
   };
 
+  // Funcion para mandar los datos del formulario al backend
   const handleSave = async () => {
+    const confirm = await confirmDialog(
+      id ? "Actualizar producto" : "Crear producto",
+      id
+        ? "¿Esta seguro de actualizar este producto?"
+        : "¿Esta seguro de crear este producto?"
+    );
+
+    if (!confirm) return;
+
     try {
-      setLoading(false)
-      const { status, ...productsWithStatus } = product;
+      setLoading(false);
+
+      const productToSend = { ...product, status: "activo" };
 
       const method = id ? "PATCH" : "POST";
 
@@ -38,7 +54,7 @@ export const ProductsForm = () => {
         headers: {
           "Content-Type": "application/json", // ❗️IMPORTANTE
         },
-        body: JSON.stringify(productsWithStatus),
+        body: JSON.stringify(productToSend),
       });
 
       console.log(JSON.stringify(product));
@@ -51,7 +67,7 @@ export const ProductsForm = () => {
       }
     } catch {
       console.log(error);
-      
+
       throw "Hubo un error al crear el producto";
     }
   };
@@ -80,6 +96,10 @@ export const ProductsForm = () => {
             <span className="ml-2 font-semibold text-xl">Volver</span>
           </button>
 
+          <h2 className="text-xl font-bold mb-4 text-left">
+            {id ? "Actualizar producto" : "Registrar producto"}
+          </h2>
+
           {/* Formulario */}
           <form
             onSubmit={handleOnSubmit}
@@ -94,7 +114,7 @@ export const ProductsForm = () => {
               <input
                 id="title"
                 type="text"
-                value={product?.name || ""}
+                value={productId?.name || ""}
                 name="name"
                 required
                 onChange={handleOnChange}
@@ -115,7 +135,7 @@ export const ProductsForm = () => {
                 name="description"
                 id="description"
                 required
-                value={product?.description || ""}
+                value={productId?.description || ""}
                 onChange={handleOnChange}
                 className="w-full border border-gray-300 shadow-sm px-4 py-3 rounded-md text-base"
               />
@@ -130,7 +150,7 @@ export const ProductsForm = () => {
                 type="number"
                 name="price"
                 id="price"
-                value={product?.price || ""}
+                value={productId?.price || ""}
                 onChange={handleOnChange}
                 required
                 className="w-full border border-gray-300 shadow-sm px-4 py-3 rounded-md text-base"
@@ -148,7 +168,7 @@ export const ProductsForm = () => {
               <select
                 name="category"
                 id="category"
-                value={product?.category || ""}
+                value={productId?.category || ""}
                 onChange={(e) =>
                   setProduct((prev) => ({
                     ...prev,

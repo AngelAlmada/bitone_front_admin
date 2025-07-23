@@ -3,6 +3,7 @@ import { categoryMap } from "../../constants/categorys";
 import { ProductType } from "./enums/enumsProducts";
 import { Eye, Edit2, Slash, Plus, CheckCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { IProducts } from "./interfaces/InterfacesProducts";
 
 export const Products = () => {
 const navigate = useNavigate();
@@ -11,7 +12,7 @@ const navigate = useNavigate();
 
   const handleView = () => {};
 
-  const handleEdit = () => {};
+  const handleEdit = (products: IProducts) => {navigate(`/ProductsCreate/${products.id}`)};
 
   const handleDeactivate = () => {};
 
@@ -88,7 +89,7 @@ const navigate = useNavigate();
                     <Eye size={16} /> Ver
                   </button>
                   <button
-                    onClick={() => handleEdit()}
+                    onClick={() => handleEdit(p)}
                     className="flex items-center gap-1 text-yellow-600 hover:text-yellow-800 text-xs"
                     title="Editar"
                   >

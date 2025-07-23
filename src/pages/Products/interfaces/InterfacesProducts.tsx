@@ -1,6 +1,7 @@
 import { ProductType } from "../enums/enumsProducts";
 
-export interface Products {
+export interface IProducts {
+  id: string;
   name: string;
   description: string;
   category: ProductType;

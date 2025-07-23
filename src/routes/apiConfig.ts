@@ -1,6 +1,6 @@
 // src/config/apiConfig.ts
 
-const BASE_URL = "https://bitone-back.onrender.com";
+const BASE_URL = "http://localhost:3000";
 
 export const API_ROUTES = {
   AUTH_USER: `${BASE_URL}/auth/login`,
