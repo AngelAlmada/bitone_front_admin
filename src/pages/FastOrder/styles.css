@@ -1,0 +1,443 @@
+/* Variables para colores */
+:root {
+    --primary-color: #007bff; /* Azul para botones y acentos */
+    --secondary-color: #2c3e50; /* Azul oscuro para texto principal */
+    --accent-teal: #00bcd4; /* Teal del logo */
+    --accent-orange: #ff9800; /* Naranja del logo */
+    --light-bg: #f8f8f8; /* Fondo claro de secciones */
+    --dark-bg: #2c3e50; /* Fondo oscuro de secciones */
+    --text-light: #ffffff; /* Texto sobre fondo oscuro */
+    --text-dark: #333333; /* Texto sobre fondo claro */
+    --border-color: #e0e0e0;
+}
+
+/* Reset básico y estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1.6;
+    color: var(--text-dark);
+    background-color: #fff;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+h1, h2, h3 {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 3.2em;
+    line-height: 1.2;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 2.5em;
+    text-align: center;
+    margin-bottom: 40px;
+    font-weight: 600;
+}
+
+h3 {
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+p {
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Botones */
+.btn {
+    display: inline-block;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-size: 1.1em;
+    cursor: pointer;
+}
+
+.primary-btn {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    border: 2px solid var(--primary-color);
+    margin-right: 15px;
+}
+
+.primary-btn:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    text-decoration: none;
+}
+
+.secondary-btn {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.secondary-btn:hover {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    text-decoration: none;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #fff;
+    padding: 15px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar .logo {
+    display: flex;
+    align-items: center;
+    font-size: 1.8em;
+    font-weight: 700;
+    color: var(--secondary-color);
+}
+
+.navbar .logo img {
+    height: 40px; /* Tamaño del logo */
+    margin-right: 10px;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+}
+
+.navbar ul li {
+    margin-left: 30px;
+}
+
+.navbar ul li a {
+    color: var(--secondary-color);
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.navbar ul li a:hover {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+/* Secciones generales */
+section {
+    padding: 80px 0;
+    text-align: center;
+}
+
+.light-bg {
+    background-color: var(--light-bg);
+}
+
+.dark-bg {
+    background-color: var(--dark-bg);
+    color: var(--text-light);
+}
+
+.dark-bg h2, .dark-bg h3 {
+    color: var(--text-light);
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://via.placeholder.com/1600x600.png?text=Fondo+Restaurante') no-repeat center center/cover; /* Placeholder, reemplazar con imagen real */
+    color: var(--text-light);
+    text-align: center;
+    padding: 150px 20px;
+    height: 60vh; /* Altura de la sección */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.hero-section h1 {
+    color: var(--text-light);
+    margin-bottom: 20px;
+    font-size: 3.8em;
+}
+
+.hero-section p {
+    font-size: 1.4em;
+    margin-bottom: 40px;
+    max-width: 800px;
+}
+
+/* Info Section (¿Qué es?) */
+.info-section h3 {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.process-steps {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.step {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    padding: 30px;
+    flex: 1 1 calc(33% - 40px); /* 3 items per row on larger screens */
+    max-width: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-height: 200px;
+}
+
+.step-number {
+    font-size: 2.5em;
+    font-weight: 700;
+    color: var(--primary-color);
+    background-color: var(--light-bg);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    border: 2px solid var(--primary-color);
+}
+
+.step p {
+    font-size: 1em;
+    color: var(--text-dark);
+}
+
+.order-summary {
+    margin-top: 50px;
+    background-color: #e6f7ff; /* Un azul muy claro */
+    border-left: 5px solid var(--primary-color);
+    padding: 25px;
+    border-radius: 8px;
+    text-align: left;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.order-summary p {
+    margin-bottom: 10px;
+    font-size: 1.1em;
+    color: var(--secondary-color);
+}
+
+/* Benefits Section */
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.benefit-item {
+    background-color: #3b5978; /* Un tono más oscuro del azul secundario */
+    padding: 30px;
+    border-radius: 12px;
+    text-align: left;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.benefit-item h3 {
+    color: var(--accent-orange); /* Naranja para títulos de beneficios */
+    margin-bottom: 10px;
+}
+
+.benefit-item p {
+    color: var(--text-light);
+    font-size: 1em;
+}
+
+.tagline {
+    font-size: 1.8em;
+    font-weight: 700;
+    color: var(--accent-teal); /* Teal para la frase clave */
+    margin-top: 50px;
+}
+
+.target-audience {
+    font-size: 1.2em;
+    margin-top: 20px;
+    color: var(--text-light);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* CTA Section */
+.cta-section p {
+    max-width: 700px;
+    margin: 0 auto 30px auto;
+}
+
+.cta-section .btn {
+    margin-top: 10px;
+}
+
+.contact-info {
+    margin-top: 30px;
+    font-size: 1.1em;
+}
+
+/* Footer */
+footer {
+    background-color: var(--secondary-color);
+    color: var(--text-light);
+    padding: 30px 0;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+footer .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Para responsividad */
+}
+
+footer p {
+    margin: 0;
+}
+
+footer ul {
+    list-style: none;
+    display: flex;
+    padding: 0;
+    margin-top: 10px; /* Espacio para móvil */
+}
+
+footer ul li {
+    margin-left: 20px;
+}
+
+footer ul li a {
+    color: var(--text-light);
+    transition: color 0.3s ease;
+}
+
+footer ul li a:hover {
+    color: var(--primary-color);
+}
+
+
+/* Media Queries para Responsividad */
+@media (max-width: 900px) {
+    .hero-section h1 {
+        font-size: 3em;
+    }
+    .process-steps {
+        flex-direction: column;
+        align-items: center;
+    }
+    .step {
+        flex: 1 1 80%;
+    }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.5em;
+    }
+    h2 {
+        font-size: 2em;
+    }
+    .navbar .container {
+        flex-direction: column;
+    }
+    .navbar .logo {
+        margin-bottom: 15px;
+    }
+    .navbar nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .navbar ul li {
+        margin: 0 15px 10px;
+    }
+    .hero-section {
+        padding: 100px 20px;
+    }
+    .benefits-grid {
+        grid-template-columns: 1fr;
+    }
+    .cta-section .btn {
+        display: block;
+        margin: 15px auto;
+        width: 80%;
+    }
+    footer .container {
+        flex-direction: column;
+        text-align: center;
+    }
+    footer ul {
+        margin-top: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2em;
+    }
+    h2 {
+        font-size: 1.8em;
+    }
+    .navbar .logo {
+        font-size: 1.5em;
+    }
+    .navbar .logo img {
+        height: 30px;
+    }
+    .hero-section p {
+        font-size: 1.2em;
+    }
+    .btn {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+
+    
+}
